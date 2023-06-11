@@ -1,29 +1,42 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity 0.8.15;
 
 import "forge-std/Script.sol";
 import {ISimpleAccountFactory} from "src/interfaces/ISimpleAccountFactory.sol";
+import {IEntryPoint} from "src/interfaces/IEntryPoint.sol";
+import {BytesLib} from "lib/solidity-bytes-utils/contracts/BytesLib.sol";
 
 contract CounterScript is Script {
-    address constant simpleAccountFactory = 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789;
-    address constant simpleAccount = 0x38973417E51499001A56EBA38ae9832D99375767;
+    using BytesLib for bytes;
+
+    address constant entryPoint = 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789;
+    address constant simpleAccountFactory = 0x9406Cc6185a346906296840746125a0E44976454;
+    address constant simpleAccount = 0x8ABB13360b87Be5EEb1B98647A016adD927a136c;
+    address constant simpleAccountImplementation = 0x38973417E51499001A56EBA38ae9832D99375767;
+
+    function getInitCode() public view returns (bytes memory initCode) {
+        bytes memory simpleAccountCode = vm.getDeployedCode("SimpleAccount.sol:SimpleAccount");
+        bytes memory args = abi.encode(entryPoint);
+        initCode = abi.encodePacked(simpleAccountCode, args);
+        // console.logBytes(initCode);
+        console.log("getInitCode", initCode.length);
+    }
 
     function setUp() public {}
 
     function run() public {
-        // creationCode
-        bytes memory simpleAccountCode = vm.getCode("SimpleAccount.sol:SimpleAccount");
-        console.logBytes(simpleAccountCode);
+        bytes memory initCode = getInitCode();
 
-        bytes memory simpleAccountCodeDeployed = simpleAccount.code;
-        console.logBytes(simpleAccountCodeDeployed);
-        
-        if (keccak256(simpleAccountCode) == keccak256(simpleAccountCodeDeployed)) console.log("OK");
+        vm.startBroadcast();
 
-        bytes memory args = abi.encode(simpleAccountFactory);
-        console.logBytes(args);
+        try IEntryPoint(entryPoint).getSenderAddress(initCode) {
+            console.log("OK should not happen!");
+        } catch (bytes memory message) {
+            console.logBytes(message);
+            console.logBytes(message.slice(0, 4));
+            console.log(message.toAddress(16));
+        }
 
-        bytes memory initCode = abi.encodePacked(simpleAccountCode, args);
-        console.logBytes(initCode);
+        vm.stopBroadcast();
     }
 }
