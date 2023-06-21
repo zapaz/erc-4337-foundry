@@ -15,22 +15,35 @@ contract EntryPointTest is Test {
 
     EntryPoint public entryPoint;
     MySimpleAccountFactory public factory;
+    MySimpleAccount public account;
+    address accountAddress;
 
     UserOperation userOp;
-    address sender;
     uint256 pKey = 42;
     uint256 salt = 76;
     address owner = vm.addr(pKey);
+
+    function signUserOp(UserOperation memory userOp) public returns (bytes memory signature) {
+        bytes32 userOpHash = entryPoint.getUserOpHash(userOp);
+        bytes32 hash = userOpHash.toEthSignedMessageHash();
+
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(pKey, hash);
+        signature = abi.encodePacked(r, s, v);
+
+        address signer = ecrecover(hash, v, r, s);
+        assertEq(owner, signer);
+    }
 
     function setUp() public {
         entryPoint = new EntryPoint();
         factory = new MySimpleAccountFactory(entryPoint);
 
-        sender = factory.getAddress(owner, salt);
-        vm.deal(sender, 1 ether);
+        accountAddress = factory.getAddress(owner, salt);
+        account = MySimpleAccount(payable(accountAddress));
+        vm.deal(accountAddress, 1 ether);
 
         uint192 key = 312;
-        uint256 nonce = entryPoint.getNonce(sender, key);
+        uint256 nonce = entryPoint.getNonce(accountAddress, key);
         bytes memory initCode = factory.getInitCode(owner, salt);
         bytes memory callData = "";
         uint256 callGasLimit = 2_000_000;
@@ -42,7 +55,7 @@ contract EntryPointTest is Test {
         bytes memory signature = "";
 
         userOp = UserOperation({
-            sender: sender,
+            sender: accountAddress,
             nonce: nonce,
             initCode: initCode,
             callData: callData,
@@ -54,7 +67,6 @@ contract EntryPointTest is Test {
             paymasterAndData: paymasterAndData,
             signature: signature
         });
-        bytes32 userOpHash = entryPoint.getUserOpHash(userOp);
     }
 
     function test_Signature() public pure {
@@ -83,25 +95,34 @@ contract EntryPointTest is Test {
     }
 
     function test_sendUserOp() public {
-        vm.startPrank(owner);
+        vm.prank(owner);
 
-        bytes32 userOpHash = entryPoint.getUserOpHash(userOp);
-        bytes32 hash = userOpHash.toEthSignedMessageHash();
-
-        (uint8 v, bytes32 r, bytes32 s) = vm.sign(pKey, hash);
-        userOp.signature = abi.encodePacked(r, s, v);
-
-        userOpHash = entryPoint.getUserOpHash(userOp);
-
-        address signer = ecrecover(hash, v, r, s);
-        assertEq(owner, signer);
+        userOp.signature = signUserOp(userOp);
 
         UserOperation[] memory userOps = new UserOperation[](1);
         userOps[0] = userOp;
+        entryPoint.handleOps(userOps, payable(accountAddress));
+    }
 
-        entryPoint.handleOps(userOps, payable(sender));
+    function test_callData() public {
+        uint256 _balanceOwner = owner.balance;
+        uint256 _balanceAccount = accountAddress.balance;
+
+        vm.startPrank(owner);
+
+        userOp.callData = abi.encodeCall(account.execute, (owner, 0.1 ether, ""));
+        userOp.signature = signUserOp(userOp);
+
+        UserOperation[] memory userOps = new UserOperation[](1);
+        userOps[0] = userOp;
+        entryPoint.handleOps(userOps, payable(accountAddress));
 
         vm.stopPrank();
+
+        uint256 balanceOwner_ = owner.balance;
+        uint256 balanceAccount_ = accountAddress.balance;
+
+        assertEq(balanceOwner_, _balanceOwner + 0.1 ether);
     }
 
     function test_getUserOpHashTest() public {
