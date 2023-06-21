@@ -4,7 +4,7 @@ pragma solidity 0.8.15;
 import "forge-std/Test.sol";
 import {BytesLib} from "lib/solidity-bytes-utils/contracts/BytesLib.sol";
 
-contract AA is Test {
+contract MySimpleAccountTest is Test {
     using BytesLib for bytes;
 
     error SenderAddressResult(address sender);
@@ -17,7 +17,7 @@ contract AA is Test {
         sender = msg.sender;
     }
 
-    function testTrue() public {
+    function testOK() public pure {
         assert(true);
     }
 
