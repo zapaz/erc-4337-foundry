@@ -2,24 +2,24 @@
 pragma solidity 0.8.19;
 
 import {DeployLite} from "forge-deploy-lite/script/DeployLite.sol";
-import {MySimpleAccountFactory} from "src/MySimpleAccountFactory.sol";
+import {ERC1167AccountFactory} from "src/ERC1167AccountFactory.sol";
 import {IEntryPoint} from "src/interfaces/IEntryPoint.sol";
 import {MySimpleAccount} from "src/MySimpleAccount.sol";
 
-contract DeployMySimpleAccountFactory is DeployLite {
-    function deployMySimpleAccountFactory() public returns (address) {
+contract DeployERC1167AccountFactory is DeployLite {
+    function deployERC1167AccountFactory() public returns (address) {
         address mySimpleAccount = readAddress("MySimpleAccount");
 
         vm.startBroadcast(vm.envAddress("ETH_FROM"));
 
-        MySimpleAccountFactory mySimpleAccountFactory = new MySimpleAccountFactory(IEntryPoint (mySimpleAccount));
+        ERC1167AccountFactory erc1167AccountFactory = new ERC1167AccountFactory(mySimpleAccount);
 
         vm.stopBroadcast();
 
-        return address(mySimpleAccountFactory);
+        return address(erc1167AccountFactory);
     }
 
     function run() public virtual {
-        deploy("MySimpleAccountFactory");
+        deploy("ERC1167AccountFactory");
     }
 }

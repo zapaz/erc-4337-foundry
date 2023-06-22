@@ -1,5 +1,6 @@
 {
   "comprehensive-interface": "off",
   "func-name-mixedcase": "off",
-  "ordering": "off"
+  "ordering": "off",
+  "private-vars-leading-underscore": "off"
 }

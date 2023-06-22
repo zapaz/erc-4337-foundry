@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.15;
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.19;
 
 /* solhint-disable avoid-low-level-calls */
 /* solhint-disable no-inline-assembly */
@@ -8,7 +8,6 @@ pragma solidity ^0.8.15;
 import "forge-std/Test.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts/proxy/utils/UUPSUpgradeable.sol";
 
 import "src/core/BaseAccount.sol";
 import "src/samples/callback/TokenCallbackHandler.sol";
@@ -19,12 +18,12 @@ import "src/samples/callback/TokenCallbackHandler.sol";
  *  has execute, eth handling methods
  *  has a single signer that can send requests through the entryPoint.
  */
-contract MySimpleAccount is Test, BaseAccount, TokenCallbackHandler, UUPSUpgradeable, Initializable {
+contract MySimpleAccount is Test, BaseAccount, TokenCallbackHandler, Initializable {
     using ECDSA for bytes32;
 
     address public owner;
 
-    IEntryPoint private immutable _entryPoint;
+    IEntryPoint private _entryPoint;
 
     event SimpleAccountInitialized(IEntryPoint indexed entryPoint, address indexed owner);
 
@@ -134,10 +133,5 @@ contract MySimpleAccount is Test, BaseAccount, TokenCallbackHandler, UUPSUpgrade
      */
     function withdrawDepositTo(address payable withdrawAddress, uint256 amount) public onlyOwner {
         entryPoint().withdrawTo(withdrawAddress, amount);
-    }
-
-    function _authorizeUpgrade(address newImplementation) internal view override {
-        (newImplementation);
-        _onlyOwner();
     }
 }

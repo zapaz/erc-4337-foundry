@@ -1,16 +1,16 @@
 {
   "31337": {
-    "MySimpleAccountFactory": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
-    "MySimpleAccount": "0x64C3F317B5F8c82FE823DffE649EC31C377061Ba",
-    "chainName": "local"
+    "ERC1167AccountFactory": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "MySimpleAccount": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "MySimpleAccountFactory": "",
+    "chainName": ""
   },
   "11155111": {
-    "MySimpleAccountFactory": "0xdb7f48EDceC2F198B4d8b164856D821279C35F15",
-    "MySimpleAccount": "0x32C21D37dFbC37bE59ab5C1A1BeFFC0616AA1923",
+    "ERC1167AccountFactory": "0x3fC659dCc357eD3f53bdA6aB9AB8e856F4ff63A2",
+    "MySimpleAccount": "0xB82197C1Cd45f081B8A54933b704A7e17d063fe3",
     "chainName": "sepolia"
   },
   "5": {
-    "MySimpleAccount": "0x34A1D3fff3958843C43aD80F30b94c510645C316",
     "MySimpleAccountFactory": "0x90193C961A926261B756D1E5bb255e67ff9498A1",
     "chainName": "goerli"
   }
