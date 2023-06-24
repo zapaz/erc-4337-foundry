@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 import {BytesLib} from "lib/solidity-bytes-utils/contracts/BytesLib.sol";
 import {MySimpleAccountFactory} from "src/MySimpleAccountFactory.sol";
 import {MySimpleAccount} from "src/MySimpleAccount.sol";
-import {IEntryPoint} from "src/interfaces/IEntryPoint.sol";
+import {IEntryPoint} from "@account-abstraction/interfaces/IEntryPoint.sol";
 import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
 contract MySimpleAccountFactoryTest is Test {

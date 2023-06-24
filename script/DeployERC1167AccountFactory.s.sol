@@ -3,7 +3,7 @@ pragma solidity 0.8.19;
 
 import {DeployLite} from "forge-deploy-lite/script/DeployLite.sol";
 import {ERC1167AccountFactory} from "src/ERC1167AccountFactory.sol";
-import {IEntryPoint} from "src/interfaces/IEntryPoint.sol";
+import {IEntryPoint} from "@account-abstraction/interfaces/IEntryPoint.sol";
 import {MySimpleAccount} from "src/MySimpleAccount.sol";
 
 contract DeployERC1167AccountFactory is DeployLite {

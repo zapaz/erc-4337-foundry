@@ -2,14 +2,14 @@
 pragma solidity 0.8.19;
 
 import "forge-std/Test.sol";
-import {EntryPoint} from "src/core/EntryPoint.sol";
+import {EntryPoint} from "@account-abstraction/core/EntryPoint.sol";
 import {MySimpleAccount} from "src/MySimpleAccount.sol";
 
 import {MySimpleAccountFactory} from "src/MySimpleAccountFactory.sol";
 import {ERC1167AccountFactory} from "src/ERC1167AccountFactory.sol";
 
 import {BytesLib} from "lib/solidity-bytes-utils/contracts/BytesLib.sol";
-import {UserOperation} from "src/interfaces/UserOperation.sol";
+import {UserOperation} from "@account-abstraction/interfaces/UserOperation.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 interface IFactory {

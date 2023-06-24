@@ -2,10 +2,10 @@
 pragma solidity 0.8.19;
 
 import "forge-std/Test.sol";
-import {EntryPoint} from "src/core/EntryPoint.sol";
+import {EntryPoint} from "@account-abstraction/core/EntryPoint.sol";
 import {MySimpleAccountFactory} from "src/MySimpleAccountFactory.sol";
 import {MySimpleAccount} from "src/MySimpleAccount.sol";
-import {UserOperation} from "src/interfaces/UserOperation.sol";
+import {UserOperation} from "@account-abstraction/interfaces/UserOperation.sol";
 import {ReadWriteJson} from "forge-deploy-lite/script/ReadWriteJson.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 

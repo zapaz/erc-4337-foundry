@@ -9,8 +9,8 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
-import "src/core/BaseAccount.sol";
-import "src/samples/callback/TokenCallbackHandler.sol";
+import "@account-abstraction/core/BaseAccount.sol";
+import "@account-abstraction/samples/callback/TokenCallbackHandler.sol";
 
 /**
  * minimal account.

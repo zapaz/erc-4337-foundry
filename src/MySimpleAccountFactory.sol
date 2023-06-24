@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/utils/Create2.sol";
 import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
 import {MySimpleAccount} from "src/MySimpleAccount.sol";
-import {IEntryPoint} from "src/interfaces/IEntryPoint.sol";
+import {IEntryPoint} from "@account-abstraction/interfaces/IEntryPoint.sol";
 
 /**
  * A sample factory contract for MySimpleAccount

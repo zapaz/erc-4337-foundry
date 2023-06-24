@@ -3,7 +3,7 @@ pragma solidity 0.8.19;
 
 import {DeployLite} from "forge-deploy-lite/script/DeployLite.sol";
 import {MySimpleAccount} from "src/MySimpleAccount.sol";
-import {IEntryPoint} from "src/interfaces/IEntryPoint.sol";
+import {IEntryPoint} from "@account-abstraction/interfaces/IEntryPoint.sol";
 
 contract DeployMySimpleAccount is DeployLite {
     function deployMySimpleAccount() public returns (address) {

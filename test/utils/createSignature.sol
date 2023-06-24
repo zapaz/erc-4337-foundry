@@ -3,7 +3,7 @@ pragma solidity 0.8.19;
 
 import {Vm} from "forge-std/Test.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import {UserOperation} from "src/interfaces/UserOperation.sol";
+import {UserOperation} from "@account-abstraction/interfaces/UserOperation.sol";
 import {getUserOpHash} from "test/utils/getUserOpHash.sol";
 
 /// @notice Create a signature over a user operation

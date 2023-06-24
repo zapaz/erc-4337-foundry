@@ -10,3 +10,6 @@
 [submodule "lib/forge-deploy-lite"]
 	path = lib/forge-deploy-lite
 	url = https://github.com/zapaz/forge-deploy-lite
+[submodule "lib/account-abstraction"]
+	path = lib/account-abstraction
+	url = https://github.com/eth-infinitism/account-abstraction
